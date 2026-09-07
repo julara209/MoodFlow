@@ -31,6 +31,15 @@
             </div>
 
             <div class="form-group">
+                <label for="intensity">Intensidad (1 = leve, 5 = muy intensa)</label>
+                <select id="intensity" th:field="*{intensity}">
+                    <option value="">Selecciona la intensidad</option>
+                    <option th:each="n : ${#numbers.sequence(1, 5)}" th:value="${n}" th:text="${n}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('intensity')}" th:errors="*{intensity}"></div>
+            </div>
+
+            <div class="form-group">
                 <label for="note">Nota (opcional)</label>
                 <textarea id="note" th:field="*{note}" rows="4" maxlength="500"></textarea>
                 <div class="error" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>

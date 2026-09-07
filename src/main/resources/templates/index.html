@@ -30,6 +30,7 @@
         <div class="card" th:each="entry : ${entries}">
             <div class="card-body">
                 <span class="badge" th:classappend="'badge-' + ${entry.emotion}" th:text="${entry.emotion}"></span>
+                <span class="intensity-stars" th:text="${'★'.repeat(entry.intensity)} + ${'☆'.repeat(5 - entry.intensity)}"></span>
                 <div class="card-date" th:text="${#temporals.format(entry.date, 'dd MMM yyyy')}"></div>
                 <div class="card-note" th:if="${entry.note != null and !entry.note.isEmpty()}" th:text="${entry.note}"></div>
             </div>

@@ -110,6 +110,12 @@ h1 {
     color: #888;
 }
 
+.intensity-stars {
+    color: #f2b705;
+    font-size: 0.9rem;
+    margin-left: 0.3rem;
+}
+
 .card-note {
     margin-top: 0.4rem;
 }

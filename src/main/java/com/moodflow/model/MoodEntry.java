@@ -36,6 +36,10 @@ public class MoodEntry {
     @Column(length = 500)
     private String note;
 
+    // Que tan intensa fue la emocion, del 1 (leve) al 5 (muy intensa)
+    @Column(nullable = false)
+    private Integer intensity;
+
     // Se llena automaticamente al guardar, no la setea el usuario
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class MoodEntryService {
         MoodEntry entry = MoodEntry.builder()
                 .date(request.getDate())
                 .emotion(request.getEmotion())
+                .intensity(request.getIntensity())
                 .note(request.getNote())
                 .build();
 
@@ -56,6 +58,7 @@ public class MoodEntryService {
 
         entry.setDate(request.getDate());
         entry.setEmotion(request.getEmotion());
+        entry.setIntensity(request.getIntensity());
         entry.setNote(request.getNote());
 
         MoodEntry updated = repository.save(entry);
@@ -86,12 +89,56 @@ public class MoodEntryService {
                 .map(Map.Entry::getKey)
                 .orElse(null);
 
-        // 5. Armar la respuesta
+        // 5. Armar la respuesta, incluyendo la racha actual
         return EmotionStatsResponse.builder()
                 .emotionMasFrecuente(masFrecuente)
                 .totalRegistros(registrosDelMes.size())
                 .conteoPorEmocion(conteo)
+                .rachaActualDias(calcularRachaActual())
                 .build();
+    }
+
+    /**
+     * Calcula cuantos dias consecutivos tiene el usuario registrando alguna
+     * emocion, contando hacia atras desde hoy.
+     *
+     * Reglas:
+     * - Si el ultimo registro es de hoy o de ayer, la racha sigue viva.
+     * - Si el ultimo registro es de hace 2 dias o mas, la racha esta rota (0).
+     * - Un dia con varios registros solo cuenta una vez.
+     */
+    private int calcularRachaActual() {
+        List<LocalDate> fechasUnicas = repository.findAll().stream()
+                .map(MoodEntry::getDate)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .toList();
+
+        if (fechasUnicas.isEmpty()) {
+            return 0;
+        }
+
+        LocalDate hoy = LocalDate.now();
+        LocalDate masReciente = fechasUnicas.get(0);
+
+        boolean rachaViva = masReciente.equals(hoy) || masReciente.equals(hoy.minusDays(1));
+        if (!rachaViva) {
+            return 0;
+        }
+
+        int racha = 1;
+        LocalDate fechaEsperada = masReciente.minusDays(1);
+
+        for (int i = 1; i < fechasUnicas.size(); i++) {
+            if (fechasUnicas.get(i).equals(fechaEsperada)) {
+                racha++;
+                fechaEsperada = fechaEsperada.minusDays(1);
+            } else {
+                break;
+            }
+        }
+
+        return racha;
     }
 
     // ---- helpers privados ----
@@ -110,6 +157,7 @@ public class MoodEntryService {
                 .id(entry.getId())
                 .date(entry.getDate())
                 .emotion(entry.getEmotion())
+                .intensity(entry.getIntensity())
                 .note(entry.getNote())
                 .createdAt(entry.getCreatedAt())
                 .build();

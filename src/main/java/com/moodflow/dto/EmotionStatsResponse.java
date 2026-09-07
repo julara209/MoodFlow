@@ -18,4 +18,8 @@ public class EmotionStatsResponse {
 
     // Conteo por cada emocion, ej: { FELIZ: 5, TRISTE: 2, MOTIVADO: 3 }
     private Map<Emotion, Long> conteoPorEmocion;
+
+    // Dias consecutivos registrando alguna emocion, contando hacia atras desde
+    // hoy (o desde ayer, si hoy todavia no se ha registrado nada)
+    private int rachaActualDias;
 }

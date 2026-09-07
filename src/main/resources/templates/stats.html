@@ -11,6 +11,12 @@
     <div class="container">
         <h1>Estadísticas del mes</h1>
 
+        <div class="stat-highlight" th:if="${stats.rachaActualDias > 0}">
+            <p>🔥 Llevas</p>
+            <div class="emotion" th:text="${stats.rachaActualDias} + (${stats.rachaActualDias == 1} ? ' día' : ' días')"></div>
+            <p>seguidos registrando cómo te sientes</p>
+        </div>
+
         <div th:if="${stats.totalRegistros == 0}" class="empty-state">
             <p>Todavía no hay registros este mes.</p>
         </div>

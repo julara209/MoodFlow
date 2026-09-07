@@ -15,6 +15,7 @@ public class MoodEntryResponse {
     private Long id;
     private LocalDate date;
     private Emotion emotion;
+    private Integer intensity;
     private String note;
     private LocalDateTime createdAt;
 }

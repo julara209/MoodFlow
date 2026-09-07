@@ -50,6 +50,7 @@ public class MoodEntryViewController {
         MoodEntryRequest request = new MoodEntryRequest();
         request.setDate(existing.getDate());
         request.setEmotion(existing.getEmotion());
+        request.setIntensity(existing.getIntensity());
         request.setNote(existing.getNote());
 
         model.addAttribute("moodEntryRequest", request);

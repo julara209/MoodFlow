@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isEdit} ? 'Editar registro' : 'Nuevo registro'">MoodFlow</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container">
+        <h1 th:text="${isEdit} ? 'Editar registro' : '¿Cómo te sientes hoy?'"></h1>
+
+        <form th:action="${isEdit} ? @{/entries/{id}(id=${entryId})} : @{/entries}"
+              th:object="${moodEntryRequest}" method="post">
+
+            <div class="form-group">
+                <label for="date">Fecha</label>
+                <input type="date" id="date" th:field="*{date}">
+                <div class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="emotion">Emoción</label>
+                <select id="emotion" th:field="*{emotion}">
+                    <option value="">Selecciona una emoción</option>
+                    <option th:each="e : ${T(com.moodflow.model.Emotion).values()}"
+                            th:value="${e}" th:text="${e}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('emotion')}" th:errors="*{emotion}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="note">Nota (opcional)</label>
+                <textarea id="note" th:field="*{note}" rows="4" maxlength="500"></textarea>
+                <div class="error" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
+            </div>
+
+            <button type="submit" class="btn" th:text="${isEdit} ? 'Guardar cambios' : 'Registrar emoción'"></button>
+            <a class="btn btn-secondary" th:href="@{/entries}">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

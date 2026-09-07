@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MoodFlow — Historial</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container">
+        <h1>Tu historial</h1>
+
+        <form class="filter-form" method="get" th:action="@{/entries}">
+            <select name="emotion" onchange="this.form.submit()">
+                <option value="">Todas las emociones</option>
+                <option th:each="e : ${T(com.moodflow.model.Emotion).values()}"
+                        th:value="${e}"
+                        th:text="${e}"
+                        th:selected="${e.name() == selectedEmotion}">
+                </option>
+            </select>
+        </form>
+
+        <div th:if="${#lists.isEmpty(entries)}" class="empty-state">
+            <p th:if="${selectedEmotion == null}">Aún no tienes registros. ¡Crea el primero!</p>
+            <p th:unless="${selectedEmotion == null}">No hay registros con esa emoción.</p>
+        </div>
+
+        <div class="card" th:each="entry : ${entries}">
+            <div class="card-body">
+                <span class="badge" th:classappend="'badge-' + ${entry.emotion}" th:text="${entry.emotion}"></span>
+                <div class="card-date" th:text="${#temporals.format(entry.date, 'dd MMM yyyy')}"></div>
+                <div class="card-note" th:if="${entry.note != null and !entry.note.isEmpty()}" th:text="${entry.note}"></div>
+            </div>
+            <div class="card-actions">
+                <a class="btn btn-secondary" th:href="@{/entries/{id}/edit(id=${entry.id})}">Editar</a>
+                <form th:action="@{/entries/{id}/delete(id=${entry.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar este registro?');">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

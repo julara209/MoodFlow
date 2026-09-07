@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MoodFlow — Estadísticas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container">
+        <h1>Estadísticas del mes</h1>
+
+        <div th:if="${stats.totalRegistros == 0}" class="empty-state">
+            <p>Todavía no hay registros este mes.</p>
+        </div>
+
+        <div th:unless="${stats.totalRegistros == 0}">
+            <div class="stat-highlight">
+                <p>Tu emoción más registrada este mes es</p>
+                <div class="emotion" th:text="${stats.emotionMasFrecuente}"></div>
+                <p th:text="'de ' + ${stats.totalRegistros} + ' registros en total'"></p>
+            </div>
+
+            <div th:each="item : ${stats.conteoPorEmocion}" class="stat-bar-row">
+                <div class="stat-bar-label" th:text="${item.key}"></div>
+                <div class="stat-bar-track">
+                    <div class="stat-bar-fill"
+                         th:style="'width: ' + ${(item.value * 100) / stats.totalRegistros} + '%'"></div>
+                </div>
+                <div class="stat-bar-count" th:text="${item.value}"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

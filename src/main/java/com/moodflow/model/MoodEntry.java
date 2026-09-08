@@ -10,7 +10,11 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+/**
+ * CAPA MODEL: representa la entidad de dominio "registro de estado de animo".
+ * Su unica responsabilidad es definir los datos y su mapeo a la base de datos
+ * (via anotaciones JPA). No contiene logica de negocio ni accede a otras capas.
+ */
 @Entity
 @Table(name = "mood_entries")
 @Getter

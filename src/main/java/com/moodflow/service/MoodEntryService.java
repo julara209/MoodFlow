@@ -16,6 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * CAPA SERVICE: contiene la logica de negocio de la aplicacion (validaciones,
+ * calculos, orquestacion de operaciones). Es el intermediario entre el
+ * Controller y el Repository: recibe peticiones ya "traducidas" por el
+ * controller, usa el repository para leer/guardar datos, y devuelve
+ * resultados listos para ser expuestos (DTOs de respuesta).
+ */
+
 @Service
 @RequiredArgsConstructor
 public class MoodEntryService {

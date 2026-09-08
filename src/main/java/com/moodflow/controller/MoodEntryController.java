@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * CAPA CONTROLLER: punto de entrada HTTP de la aplicacion (API REST).
+ * Su responsabilidad es recibir las peticiones, validar el formato de
+ * entrada (@Valid) y delegar el trabajo real al Service. No contiene logica
+ * de negocio ni accede directamente al repository: solo traduce HTTP <-> Java.
+ */
+
 @RestController
 @RequestMapping("/api/mood-entries")
 @RequiredArgsConstructor

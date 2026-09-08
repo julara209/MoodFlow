@@ -9,6 +9,13 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * CAPA REPOSITORY: unico punto de acceso a los datos de MoodEntry.
+ * Su responsabilidad es consultar y persistir informacion en la base de datos.
+ * No conoce reglas de negocio ni nada de HTTP; solo sabe "hablar" con la BD,
+ * apoyandose en Spring Data JPA para generar las consultas.
+ */
+
 public interface MoodEntryRepository extends JpaRepository<MoodEntry, Long> {
 
     // Ya implementado por Spring Data solo con el nombre del metodo (query method)

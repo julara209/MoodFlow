@@ -26,18 +26,4 @@ public interface MoodEntryRepository extends JpaRepository<MoodEntry, Long> {
 
     // Ordenados del mas reciente al mas antiguo, para el historial
     List<MoodEntry> findAllByOrderByDateDesc();
-
-    /*
-     * TODO (tuyo): si quieres que el conteo por emocion se haga en la base de datos
-     * en vez de en Java, puedes escribir algo asi:
-     *
-     * @Query("SELECT m.emotion AS emotion, COUNT(m) AS total " +
-     *        "FROM MoodEntry m WHERE m.date BETWEEN :start AND :end " +
-     *        "GROUP BY m.emotion ORDER BY total DESC")
-     * List<Object[]> countByEmotionBetween(@Param("start") LocalDate start,
-     *                                       @Param("end") LocalDate end);
-     *
-     * Es opcional: tambien puedes hacer el conteo en el Service usando
-     * findByDateBetween(...) y agrupando con streams de Java (mas facil de depurar).
-     */
 }

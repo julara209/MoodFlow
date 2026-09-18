@@ -155,11 +155,6 @@ public class MoodEntryService {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe un registro con id " + id));
     }
-
-    /*
-     * TODO (tuyo): revisa que este mapeo tenga todos los campos que necesitas exponer.
-     * Si mas adelante agregas campos a MoodEntry, recuerda actualizarlos aqui tambien.
-     */
     private MoodEntryResponse toResponse(MoodEntry entry) {
         return MoodEntryResponse.builder()
                 .id(entry.getId())
